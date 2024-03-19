@@ -23,7 +23,12 @@ class Navigation:
 
             # Extract destination names and prices
             destination_elements = page.query_selector_all('.tsAU4e')
-            for destination_element in destination_elements[:5]:  # Selecting the first 5 destinations
+
+            # Sort destinations by price
+            destination_elements.sort(key=lambda element: float(element.query_selector('[data-gs]').inner_text().replace('£', '')))
+
+            # Select the cheapest 5 destinations
+            for destination_element in destination_elements[:5]:
                 destination_name = destination_element.inner_text()
                 price_element = destination_element.query_selector('[data-gs]')
                 price = price_element.inner_text() if price_element else "Price not available"
