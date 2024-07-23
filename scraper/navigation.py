@@ -4,9 +4,9 @@ from playwright.sync_api import sync_playwright
 
 
 class Navigation:
-    LINK = ("https://www.google.com/travel/explore?tfs"
-            "=CBwQAxoOagwIAhIIL20vMDRqcGwaDnIMCAISCC9tLzA0anBsQAFIAXACggEECAMQAZgBAQ&tfu=GgA&tcfs"
-            "=ChIKCC9tLzA0anBsGgZMb25kb24&curr=GBP")
+    LINK = (
+        "https://www.google.com/travel/explore?tfs"
+        "=CBwQAxoOagwIAxIIL20vMDRqcGwaDnIMCAMSCC9tLzA0anBsQAFIAXACggEECAcQAZgBAQ&tfu=GgA&curr=GBP")
 
     @classmethod
     def navigate_to_google_flights(cls):
@@ -25,7 +25,8 @@ class Navigation:
             destination_elements = page.query_selector_all('.tsAU4e')
 
             # Sort destinations by price
-            destination_elements.sort(key=lambda element: float(element.query_selector('[data-gs]').inner_text().replace('£', '')))
+            destination_elements.sort(key=lambda element: float(element.query_selector('[data-gs]').inner_text().replace
+                                                                ('£', '')))
 
             # Select the cheapest 5 destinations
             for destination_element in destination_elements[:5]:
