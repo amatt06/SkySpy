@@ -1,9 +1,9 @@
-# flight_scraper.py
+# sky_scraper.py
 
 from navigation import Navigation
 
 
-class FlightScraper:
+class SkyScraper:
     @staticmethod
     def retrieve_flight_data():
         # Add code here to retrieve flight data
@@ -12,4 +12,4 @@ class FlightScraper:
 
 if __name__ == "__main__":
     Navigation.navigate_to_google_flights()
-    FlightScraper.retrieve_flight_data()
+    SkyScraper.retrieve_flight_data()
