@@ -6,7 +6,8 @@ from playwright.sync_api import sync_playwright
 class Navigation:
     LINK = (
         "https://www.google.com/travel/explore?tfs"
-        "=CBwQAxoOagwIAxIIL20vMDRqcGwaDnIMCAMSCC9tLzA0anBsQAFIAXACggEECAcQAZgBAQ&tfu=GgA&curr=GBP")
+        "=CBwQAxoOagwIAxIIL20vMDRqcGwaDnIMCAMSCC9tLzA0anBsQAFIAXACggENCP___________wEQAZgBAbIBBBgBIAE&tfu=GgA&gl=AU"
+        "&curr=GBP&hl=en-GB")
 
     @classmethod
     def navigate_to_google_flights(cls):
