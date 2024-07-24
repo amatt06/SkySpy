@@ -40,17 +40,9 @@ class Navigation:
                 else:
                     print("Done button not found.")
                     return
-
-                # Wait for the page to update after selecting the date
-                page.wait_for_selector('.tsAU4e', timeout=60000)  # Adjust the selector as needed
-
-                # Optionally, add a small delay to ensure content has loaded
-                page.wait_for_timeout(3000)  # Wait for 3 seconds (adjust as needed)
-
-                # Extract destination names and prices
+                page.wait_for_selector('.tsAU4e', timeout=60000)
+                page.wait_for_timeout(3000)
                 destination_elements = page.query_selector_all('.tsAU4e')
-
-                # Sort destinations by price
                 destination_elements.sort(
                     key=lambda element: float(element.query_selector('[data-gs]').inner_text().replace('£', '')))
 
@@ -64,6 +56,4 @@ class Navigation:
 
             except Exception as e:
                 print(f"An error occurred: {e}")
-
-            # Close the browser
             browser.close()
