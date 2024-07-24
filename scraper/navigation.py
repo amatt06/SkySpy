@@ -1,6 +1,5 @@
 from playwright.sync_api import sync_playwright
 
-
 class Navigation:
     LINK = (
         "https://www.google.com/travel/explore?tfs="
@@ -50,24 +49,23 @@ class Navigation:
                 # Extract destination names and prices
                 destination_elements = page.query_selector_all('.tsAU4e')
 
-                # Sort destinations by price
-                destination_elements.sort(
-                    key=lambda element: float(element.query_selector('[data-gs]').inner_text().replace('£', '')))
+                # Store detailed price information
+                price_data = []
 
-                # Select the cheapest 5 destinations
-                cheapest_destinations = destination_elements[:25]
-                for destination_element in cheapest_destinations:
+                for destination_element in destination_elements:
                     destination_name = destination_element.inner_text()
                     price_element = destination_element.query_selector('[data-gs]')
-                    price = price_element.inner_text() if price_element else "Price not available"
+                    price = price_element.inner_text().replace('£', '') if price_element else "Price not available"
+                    if price == "Price not available":
+                        continue
 
-                    print(f"Destination: {destination_name}, Price: {price}")
+                    print(f"Destination: {destination_name}, Price: £{price}")
 
+                    # Click on the destination to get detailed pricing information
                     destination_element.click()
 
-                    detailed_price_button_xpath = ('//*[@id="yDmH0d"]/c-wiz[2]/div/div[2]/div/c-wiz/div['
-                                                   '2]/div/div/div[2]/div/div[4]/div[1]/div/div[2]/div[1]/div['
-                                                   '1]/div/div/div/div/div[1]/div[3]/button')
+                    # Wait for the detailed price information to load
+                    detailed_price_button_xpath = '//*[@id="yDmH0d"]/c-wiz[2]/div/div[2]/div/c-wiz/div[2]/div/div/div[2]/div/div[4]/div[1]/div/div[2]/div[1]/div[1]/div/div/div/div/div[1]/div[3]/button'
                     page.wait_for_selector(f'xpath={detailed_price_button_xpath}', timeout=60000)
                     detailed_price_button = page.query_selector(f'xpath={detailed_price_button_xpath}')
                     if detailed_price_button:
@@ -77,18 +75,31 @@ class Navigation:
                         continue
 
                     # Extract detailed pricing information
-                    detailed_price_xpath = ('//*[@id="yDmH0d"]/c-wiz[2]/div/div[2]/div/c-wiz/div[2]/div/div/div['
-                                            '2]/div/div[4]/div[1]/div/div[2]/div[1]/div[1]/div/div/div/div/div['
-                                            '2]/div/div/div[2]')
+                    detailed_price_xpath = '//*[@id="yDmH0d"]/c-wiz[2]/div/div[2]/div/c-wiz/div[2]/div/div/div[2]/div/div[4]/div[1]/div/div[2]/div[1]/div[1]/div/div/div/div/div[2]/div/div/div[2]'
                     page.wait_for_selector(f'xpath={detailed_price_xpath}', timeout=60000)
                     detailed_price_element = page.query_selector(f'xpath={detailed_price_xpath}')
                     detailed_price_info = detailed_price_element.inner_text() if detailed_price_element else "Detailed price information not available"
 
                     print(f"Detailed Price Info: {detailed_price_info}")
 
+                    # Extract the usual price range and calculate the percentage difference
+                    if "usually cost between" in detailed_price_info:
+                        usual_price_range = detailed_price_info.split("usually cost between")[1].strip().split("–")
+                        usual_low = float(usual_price_range[0].replace('£', '').strip())
+                        usual_high = float(usual_price_range[1].replace('£', '').strip())
+                        usual_average = (usual_low + usual_high) / 2
+
+                        current_price = float(price)
+                        percentage_difference = ((usual_average - current_price) / usual_average) * 100
+
+                        price_data.append({
+                            "destination": destination_name,
+                            "price": current_price,
+                            "percentage_cheaper": percentage_difference
+                        })
+
                     # Go back to the list of destinations
-                    back_button_xpath = ('//*[@id="yDmH0d"]/c-wiz[2]/div/div[2]/div/c-wiz/div[2]/div/div/div['
-                                         '2]/div/div[2]/div[1]/button')
+                    back_button_xpath = '//*[@id="yDmH0d"]/c-wiz[2]/div/div[2]/div/c-wiz/div[2]/div/div/div[2]/div/div[2]/div[1]/button'
                     page.wait_for_selector(f'xpath={back_button_xpath}', timeout=60000)
                     back_button = page.query_selector(f'xpath={back_button_xpath}')
                     if back_button:
@@ -96,6 +107,14 @@ class Navigation:
                     else:
                         print("Back button not found.")
                         continue
+
+                # Sort the deals by percentage difference and print the top 15
+                sorted_deals = sorted(price_data, key=lambda x: x['percentage_cheaper'], reverse=True)[:15]
+                print(f"\nTop 15 Deals:")
+                for deal in sorted_deals:
+                    print(f"Destination: {deal['destination']}")
+                    print(f"Price: £{deal['price']}")
+                    print(f"Percentage Cheaper: {deal['percentage_cheaper']:.2f}%\n")
 
             except Exception as e:
                 print(f"An error occurred: {e}")
