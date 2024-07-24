@@ -1,13 +1,13 @@
 # SkySpy
 
-SkySpy is a Python project aimed at scraping flight data from the Google Flights website and providing users with weekly information on flight prices and insights. The project utilises web scraping techniques to gather data from the Google Flights search results page and presents it in a structured format.
+SkySpy is a Python project aimed at scraping flight data from the Google Flights website and providing users with weekly information on flight prices and insights. The project utilises web scraping techniques to gather data from the Google Flights search results page and presents it in a structured format. Future iterations plan to run this through AWS Lambda and DynamoDB, sending results via WhatsApp messages.
 
 ## Features
 
 - Scrapes flight data from Google Flights
 - Retrieves information such as flight prices, dates, and airlines
 - Calculates insights on flight prices compared to typical prices
-- Sends formatted flight information to users via messaging platforms
+- Identifies the top 8 cheapest flights and the top 15 flights with the highest percentage discount from the usual cost
 
 ## Installation
 
@@ -34,7 +34,7 @@ SkySpy is a Python project aimed at scraping flight data from the Google Flights
 To run the SkySpy scraper, execute the following command:
 
 ```bash
-python main.py
+python scraper/sky_scraper.py
 ```
 
 ## Trello Board
