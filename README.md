@@ -44,6 +44,10 @@ Follow the progress of SkySpy on our Trello board. You can propose new features,
 [Trello Board](https://trello.com/b/Hg6bh95o/skyspy)
 
 
-## Contributing
+## Disclaimer
 
-Contributions are welcome! Please feel free to open issues or submit pull requests for any improvements or feature additions.
+This project is intended for educational and research purposes only. The web scraping functionality provided in this project is designed to demonstrate technical concepts and should not be used for commercial purposes or in a manner that violates the terms of service of any website.
+
+Please note that scraping websites like Google Flights may violate their terms of service, and we strongly advise against using this project for scraping live data without proper authorisation. The authors of this project are not responsible for any misuse or legal consequences resulting from the use of this code.
+
+If you require flight data for production or commercial purposes, we recommend using official APIs or data services that provide the data you need in compliance with applicable laws and regulations.
