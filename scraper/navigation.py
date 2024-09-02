@@ -21,6 +21,12 @@ class Navigation:
             page.goto(cls.LINK, wait_until='networkidle')
 
             try:
+                # Check for and accept cookies if the screen appears
+                cookie_accept_button_selector = 'button[aria-label="Accept all"]'
+                if page.query_selector(cookie_accept_button_selector):
+                    page.click(cookie_accept_button_selector)
+                    print("Accepted cookies.")
+
                 date_picker_button_xpath = ('//*[@id="yDmH0d"]/c-wiz[2]/div/div[2]/div/c-wiz/div[2]/div/div/div['
                                             '1]/div[1]/section/div/div[1]/div[1]/div[1]/div[2]/div[2]/div/div/div['
                                             '1]/div/div/div/div[2]/div')
