@@ -6,7 +6,7 @@ from navigation import Navigation
 class SkyScraper:
     @staticmethod
     def store_flight_data():
-        # Add code here to store flight data
+        # TODO: Future Feature
         pass
 
 
