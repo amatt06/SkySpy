@@ -1,7 +1,7 @@
-# navigation.py
-
 from playwright.sync_api import sync_playwright
+
 from flight_data_handler import FlightDataHandler
+from datetime import datetime
 
 
 class Navigation:
@@ -27,34 +27,39 @@ class Navigation:
                     page.click(cookie_accept_button_selector)
                     print("Accepted cookies.")
 
+                # Get the month after the current one
+                current_month = datetime.now().month
+                next_month_name = (datetime(1, current_month % 12 + 1, 1)).strftime('%B')
+
+                # Open the date picker
                 date_picker_button_xpath = ('//*[@id="yDmH0d"]/c-wiz[2]/div/div[2]/div/c-wiz/div[2]/div/div/div['
                                             '1]/div[1]/section/div/div[1]/div[1]/div[1]/div[2]/div[2]/div/div/div['
                                             '1]/div/div/div/div[2]/div')
                 page.click(f'xpath={date_picker_button_xpath}')
-                month_button_xpath = ('//*[@id="ow78"]/div[2]/div/div[2]/div/div[3]/span/div/div[2]/div[1]/span['
-                                      '3]/span/span/button')
-                page.wait_for_selector(f'xpath={month_button_xpath}', timeout=60000)
-                month_button = page.query_selector(f'xpath={month_button_xpath}')
-                if month_button:
-                    month_button.click()
-                else:
-                    print("Month button not found.")
-                    return
 
-                done_button_xpath = '//*[@id="ow78"]/div[2]/div/div[3]/div[1]/button'
-                page.wait_for_selector(f'xpath={done_button_xpath}', timeout=60000)
-                done_button = page.query_selector(f'xpath={done_button_xpath}')
-                if done_button:
-                    done_button.click()
+                # Select the target month
+                target_month_selector = f"button:has-text('{next_month_name}')"
+                page.wait_for_selector(target_month_selector, timeout=60000)
+                page.click(target_month_selector)
+                print(f"Selected month: {next_month_name}")
+
+                # Add a delay to ensure the page catches up
+                page.wait_for_timeout(2000)  # Wait for 2 seconds after selecting the month
+
+                # Click the "Done" button using CSS selector
+                done_button_selector = "#ow8 button:has-text('Done')"  # Update the selector if necessary
+                page.wait_for_selector(done_button_selector, timeout=60000)
+                if page.is_visible(done_button_selector):
+                    page.click(done_button_selector)
+                    print("Clicked 'Done' button.")
                 else:
-                    print("Done button not found.")
-                    return
+                    print("Done button not visible.")
 
                 # Wait for the page to update after selecting the date
-                page.wait_for_selector('.tsAU4e', timeout=60000)  # Adjust the selector as needed
+                page.wait_for_selector('.tsAU4e', timeout=60000)
 
                 # Optionally, add a small delay to ensure content has loaded
-                page.wait_for_timeout(3000)  # Wait for 3 seconds (adjust as needed)
+                page.wait_for_timeout(3000)
 
                 # Extract destination names and prices
                 destination_elements = page.query_selector_all('.tsAU4e')
