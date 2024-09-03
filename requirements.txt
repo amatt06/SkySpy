@@ -1,5 +1,7 @@
+beautifulsoup4==4.12.3
 greenlet==3.0.3
 playwright==1.42.0
 pyee==11.0.1
 selectolax==0.3.21
+soupsieve==2.6
 typing_extensions==4.10.0

@@ -7,8 +7,8 @@ from typing import List, Dict
 SENSITIVE_DATA_DIR = '../sensitive_data'
 
 
-# Read in and return the contacts from the csv.
 def get_contacts_from_csv(file_name: str = 'email_list.csv') -> List[Dict[str, str]]:
+    # Read in and return the contacts from the csv.
     contact_list = []
     file_path = os.path.join(SENSITIVE_DATA_DIR, file_name)
     try:
