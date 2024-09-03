@@ -79,3 +79,6 @@ fabric.properties
 
 # Private Files
 sensitive_data
+
+#PyCache
+__pycache__
