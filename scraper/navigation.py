@@ -1,3 +1,5 @@
+# navigation.py
+
 from playwright.sync_api import sync_playwright
 from flight_data_handler import FlightDataHandler
 from datetime import datetime
