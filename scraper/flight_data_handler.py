@@ -74,5 +74,5 @@ class FlightDataHandler:
             "top_deals_by_percentage": sorted_by_percentage,
             "top_deals_by_price": sorted_by_price
         }
-        with open('flight_data.json', 'w') as file:
+        with open('flight_data/london_flight_data.json', 'w') as file:
             json.dump(data, file, indent=4)
