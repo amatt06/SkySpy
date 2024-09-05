@@ -1,14 +1,12 @@
-# navigation.py
-
 from playwright.sync_api import sync_playwright
 from flight_data_handler import FlightDataHandler
+from page_elements import selectors
 from datetime import datetime
 import logging
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
 
 class Navigation:
     LINK = (
@@ -29,7 +27,7 @@ class Navigation:
 
             try:
                 # Check for and accept cookies if the screen appears
-                cookie_accept_button_selector = 'button[aria-label="Accept all"]'
+                cookie_accept_button_selector = selectors['cookie_accept_button']
                 if page.query_selector(cookie_accept_button_selector):
                     page.click(cookie_accept_button_selector)
                     logger.info("Accepted cookies.")
@@ -39,14 +37,12 @@ class Navigation:
                 next_month_name = (datetime(1, current_month % 12 + 1, 1)).strftime('%B')
 
                 # Open the date picker to select travel dates
-                date_picker_button_xpath = (
-                    '//*[@id="yDmH0d"]/c-wiz[2]/div/div[2]/div/c-wiz/div[2]/div/div/div['
-                    '1]/div[1]/section/div/div[1]/div[1]/div[1]/div[2]/div[2]/div/div/div['
-                    '1]/div/div/div/div[2]/div')
-                page.click(f'xpath={date_picker_button_xpath}')
+                date_picker_button = selectors['date_picker_button']
+                page.wait_for_selector(date_picker_button, timeout=10000)
+                page.click(date_picker_button)
 
                 # Select the next month in the date picker
-                target_month_selector = f"button:has-text('{next_month_name}')"
+                target_month_selector = selectors['target_month_button'](next_month_name)
                 page.wait_for_selector(target_month_selector, timeout=60000)
                 page.click(target_month_selector)
                 logger.info(f"Selected month: {next_month_name}")
@@ -55,7 +51,7 @@ class Navigation:
                 page.wait_for_timeout(2000)
 
                 # Click the "Done" button to confirm the date selection
-                done_button_selector = "#ow8 button:has-text('Done')"
+                done_button_selector = selectors['done_button_selector']
                 page.wait_for_selector(done_button_selector, timeout=60000)
                 if page.is_visible(done_button_selector):
                     page.click(done_button_selector)
@@ -64,13 +60,14 @@ class Navigation:
                     logger.warning("Done button not visible.")
 
                 # Wait for the page to update with new flight data
-                page.wait_for_selector('.tsAU4e', timeout=60000)
+                flight_data_selector = selectors['flight_data_selector']
+                page.wait_for_selector(flight_data_selector, timeout=60000)
 
                 # Add delay to ensure all content is loaded
                 page.wait_for_timeout(3000)
 
                 # Extract destination names and prices for further processing
-                destination_elements = page.query_selector_all('.tsAU4e')
+                destination_elements = page.query_selector_all(flight_data_selector)
 
                 # Process the flight data using a separate handler
                 handler = FlightDataHandler(page, destination_elements)
