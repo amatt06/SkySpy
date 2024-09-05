@@ -1,42 +1,35 @@
-// read_email_list.js
-
 const fs = require('fs');
 const path = require('path');
 const csv = require('csv-parser');
 
-// Define the path to the sensitive data directory using path.join
 const SENSITIVE_DATA_DIR = path.join(__dirname, 'sensitive_data');
 
 /**
- * Reads contacts from a CSV file and returns them as an array of objects.
- * Each object contains 'email' and 'first_name' properties.
+ * Reads contact information (email, first_name) from a CSV file.
  *
- * @param {string} file_name - The name of the CSV file to read.
- * @returns {Array<Object>} - An array of contacts.
+ * @param {string} file_name - The name of the CSV file (default: 'email_list.csv').
+ * @returns {Promise<Array<{email: string, first_name: string}>>} - A Promise that resolves to an array of contacts.
  */
 function getContactsFromCsv(file_name = 'email_list.csv') {
-  const contacts = [];
-  // Join the directory path with the file name
-  const filePath = path.join(SENSITIVE_DATA_DIR, file_name);
+  return new Promise((resolve, reject) => {
+    const contacts = [];
+    const filePath = path.join(SENSITIVE_DATA_DIR, file_name);
 
-  // Read the CSV file and process each row
-  fs.createReadStream(filePath)
-    .pipe(csv())
-    .on('data', (row) => {
-      contacts.push({
-        email: row.email,
-        first_name: row.first_name,
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on('data', (row) => {
+        contacts.push({
+          email: row.email,
+          first_name: row.first_name,
+        });
+      })
+      .on('end', () => {
+        resolve(contacts);
+      })
+      .on('error', (err) => {
+        reject(err);
       });
-    })
-    .on('end', () => {
-      console.log('CSV file successfully processed.');
-    })
-    .on('error', (err) => {
-      console.error(`Error reading CSV file: ${err.message}`);
-    });
-
-  return contacts;
+  });
 }
 
-// Export the function for use in other modules
 module.exports = { getContactsFromCsv };
