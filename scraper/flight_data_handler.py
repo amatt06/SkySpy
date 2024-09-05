@@ -1,4 +1,4 @@
-# flight_data_handler.py
+import json
 
 class FlightDataHandler:
     def __init__(self, page, destination_elements):
@@ -33,9 +33,7 @@ class FlightDataHandler:
                                     '4]/div[1]/div/div[2]/div[1]/div[1]/div/div/div/div/div[2]/div/div/div[2]')
             self.page.wait_for_selector(f'xpath={detailed_price_xpath}', timeout=60000)
             detailed_price_element = self.page.query_selector(f'xpath={detailed_price_xpath}')
-            detailed_price_info = detailed_price_element.inner_text() if detailed_price_element else ("Detailed price "
-                                                                                                      "information "
-                                                                                                      "not available")
+            detailed_price_info = detailed_price_element.inner_text() if detailed_price_element else "Detailed price information not available"
 
             # Extract the usual price range and calculate the percentage difference
             if "usually cost between" in detailed_price_info:
@@ -67,16 +65,15 @@ class FlightDataHandler:
         sorted_by_percentage = sorted(self.price_data, key=lambda x: x['percentage_cheaper'], reverse=True)[:15]
         sorted_by_price = sorted(self.price_data, key=lambda x: x['price'])[:8]
 
-        # Print the top 15 deals by percentage difference
-        print(f"\nTop 15 Deals by Percentage Cheaper:")
-        for deal in sorted_by_percentage:
-            print(f"Destination: {deal['destination']}")
-            print(f"Price: £{deal['price']}")
-            print(f"Percentage Cheaper: {deal['percentage_cheaper']:.2f}%\n")
+        # Save the top deals to a JSON file
+        FlightDataHandler.save_data_to_json(sorted_by_percentage, sorted_by_price)
 
-        # Print the top 8 deals by price
-        print(f"\nTop 8 Cheapest Deals:")
-        for deal in sorted_by_price:
-            print(f"Destination: {deal['destination']}")
-            print(f"Price: £{deal['price']}")
-            print(f"Percentage Cheaper: {deal['percentage_cheaper']:.2f}%\n")
+    # Overwrite JSON file to store monthly data.
+    @staticmethod
+    def save_data_to_json(sorted_by_percentage, sorted_by_price):
+        data = {
+            "top_deals_by_percentage": sorted_by_percentage,
+            "top_deals_by_price": sorted_by_price
+        }
+        with open('flight_data.json', 'w') as file:
+            json.dump(data, file, indent=4)

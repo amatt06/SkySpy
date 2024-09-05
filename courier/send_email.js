@@ -1,11 +1,10 @@
-// send_email.js
-
 const { google } = require('googleapis');
 const { authenticateGmail } = require('./gmail_api_authenticator');
 const { getContactsFromCsv } = require('./read_email_list');
+const fs = require('fs').promises;
 
 /**
- * Send emails to all contacts in the CSV file.
+ * Send emails to all contacts in the CSV file with flight data.
  */
 async function sendEmails() {
     try {
@@ -25,14 +24,29 @@ async function sendEmails() {
             return;
         }
 
+        // Read flight data from JSON file
+        let flightData;
+        try {
+            const data = await fs.readFile('../scraper/flight_data.json', 'utf8');
+            flightData = JSON.parse(data);
+        } catch (error) {
+            console.error("Error reading flight data JSON file:", error);
+            return;
+        }
+
         console.log(`Sending emails to ${contacts.length} contacts...`);
+
+        // Format flight data for email
+        const flightDataContent = formatFlightData(flightData);
 
         // Iterate over contacts and email each
         for (const contact of contacts) {
             const emailContent = `
                 Hi ${contact.first_name},
 
-                This is a test email sent from the SkySpy project.
+                Here are some exciting flight deals we've found:
+
+                ${flightDataContent}
 
                 Best regards,
                 SkySpy Team
@@ -80,6 +94,31 @@ function createEmail(to, subject, message) {
         .replace(/\+/g, '-')
         .replace(/\//g, '_')
         .replace(/=+$/, '');
+}
+
+/**
+ * Format flight data for email content.
+ * @param {object} flightData - The flight data read from the JSON file.
+ * @returns {string} - The formatted flight data content.
+ */
+function formatFlightData(flightData) {
+    let content = 'Top Deals:\n\n';
+
+    if (flightData.top_deals_by_percentage && flightData.top_deals_by_percentage.length > 0) {
+        content += 'Top 15 Deals by Percentage Cheaper:\n';
+        flightData.top_deals_by_percentage.forEach(deal => {
+            content += `Destination: ${deal.destination}\nPrice: £${deal.price}\nPercentage Cheaper: ${deal.percentage_cheaper.toFixed(2)}%\n\n`;
+        });
+    }
+
+    if (flightData.top_deals_by_price && flightData.top_deals_by_price.length > 0) {
+        content += 'Top 8 Cheapest Deals:\n';
+        flightData.top_deals_by_price.forEach(deal => {
+            content += `Destination: ${deal.destination}\nPrice: £${deal.price}\nPercentage Cheaper: ${deal.percentage_cheaper.toFixed(2)}%\n\n`;
+        });
+    }
+
+    return content;
 }
 
 // Call the function to send emails
