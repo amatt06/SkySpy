@@ -1,6 +1,6 @@
 from playwright.sync_api import sync_playwright
 from flight_data_handler import FlightDataHandler
-from page_elements import selectors
+from scraper.dictionaries.nav_page_elements import navigation_selectors
 from datetime import datetime
 import logging
 
@@ -27,7 +27,7 @@ class Navigation:
 
             try:
                 # Check for and accept cookies if the screen appears
-                cookie_accept_button_selector = selectors['cookie_accept_button']
+                cookie_accept_button_selector = navigation_selectors['cookie_accept_button']
                 if page.query_selector(cookie_accept_button_selector):
                     page.click(cookie_accept_button_selector)
                     logger.info("Accepted cookies.")
@@ -37,12 +37,12 @@ class Navigation:
                 next_month_name = (datetime(1, current_month % 12 + 1, 1)).strftime('%B')
 
                 # Open the date picker to select travel dates
-                date_picker_button = selectors['date_picker_button']
+                date_picker_button = navigation_selectors['date_picker_button']
                 page.wait_for_selector(date_picker_button, timeout=10000)
                 page.click(date_picker_button)
 
                 # Select the next month in the date picker
-                target_month_selector = selectors['target_month_button'](next_month_name)
+                target_month_selector = navigation_selectors['target_month_button'](next_month_name)
                 page.wait_for_selector(target_month_selector, timeout=60000)
                 page.click(target_month_selector)
                 logger.info(f"Selected month: {next_month_name}")
@@ -51,7 +51,7 @@ class Navigation:
                 page.wait_for_timeout(2000)
 
                 # Click the "Done" button to confirm the date selection
-                done_button_selector = selectors['done_button_selector']
+                done_button_selector = navigation_selectors['done_button_selector']
                 page.wait_for_selector(done_button_selector, timeout=60000)
                 if page.is_visible(done_button_selector):
                     page.click(done_button_selector)
@@ -60,7 +60,7 @@ class Navigation:
                     logger.warning("Done button not visible.")
 
                 # Wait for the page to update with new flight data
-                flight_data_selector = selectors['flight_data_selector']
+                flight_data_selector = navigation_selectors['flight_data_selector']
                 page.wait_for_selector(flight_data_selector, timeout=60000)
 
                 # Add delay to ensure all content is loaded

@@ -1,4 +1,5 @@
 import json
+from scraper.dictionaries.flight_data_elements import element_selectors
 
 class FlightDataHandler:
     def __init__(self, page, destination_elements):
@@ -18,13 +19,11 @@ class FlightDataHandler:
             destination_element.click()
 
             # Wait for the detailed price information to load
-            detailed_price_button_xpath = ('//*[@id="yDmH0d"]/c-wiz[2]/div/div[2]/div/c-wiz/div[2]/div/div/div['
-                                           '2]/div/div[4]/div[1]/div/div[2]/div[1]/div[1]/div/div/div/div/div[1]/div['
-                                           '3]/button')
-            self.page.wait_for_selector(f'xpath={detailed_price_button_xpath}', timeout=60000)
-            detailed_price_button = self.page.query_selector(f'xpath={detailed_price_button_xpath}')
-            if detailed_price_button:
-                detailed_price_button.click()
+            detailed_price_arrow = element_selectors['detailed_price_arrow']
+            self.page.wait_for_selector(detailed_price_arrow, timeout=60000)
+            detailed_price_arrow = self.page.query_selector(detailed_price_arrow)
+            if detailed_price_arrow:
+                detailed_price_arrow.click()
             else:
                 continue
 
