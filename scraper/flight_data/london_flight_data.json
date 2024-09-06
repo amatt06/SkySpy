@@ -1,4 +1,121 @@
 {
-    "top_deals_by_percentage": [],
-    "top_deals_by_price": []
+    "top_deals_by_percentage": [
+        {
+            "destination": "Salzburg\n11\u201314 Oct\nNon-stop\n1 hr 50 min\n\u00a334",
+            "price": 34.0,
+            "percentage_cheaper": 78.41269841269842
+        },
+        {
+            "destination": "Mykonos\n17\u201321 Oct\nNon-stop\n3 hrs 55 min\n\u00a357",
+            "price": 57.0,
+            "percentage_cheaper": 76.0
+        },
+        {
+            "destination": "Marseille\n10\u201314 Oct\nNon-stop\n2 hrs\n\u00a330",
+            "price": 30.0,
+            "percentage_cheaper": 75.0
+        },
+        {
+            "destination": "Pisa\n17\u201320 Oct\nNon-stop\n2 hrs 5 min\n\u00a330",
+            "price": 30.0,
+            "percentage_cheaper": 72.09302325581395
+        },
+        {
+            "destination": "Bordeaux\n10\u201313 Oct\nNon-stop\n1 hr 40 min\n\u00a330",
+            "price": 30.0,
+            "percentage_cheaper": 70.73170731707317
+        },
+        {
+            "destination": "Lyon\n31 Oct\u2009\u2013\u20093 Nov\nNon-stop\n1 hr 40 min\n\u00a337",
+            "price": 37.0,
+            "percentage_cheaper": 67.11111111111111
+        },
+        {
+            "destination": "Split\n17\u201321 Oct\nNon-stop\n2 hrs 35 min\n\u00a344",
+            "price": 44.0,
+            "percentage_cheaper": 66.15384615384615
+        },
+        {
+            "destination": "Vienna\n3\u20137 Oct\nNon-stop\n2 hrs 10 min\n\u00a330",
+            "price": 30.0,
+            "percentage_cheaper": 61.29032258064516
+        },
+        {
+            "destination": "Palma\n19\u201321 Oct\nNon-stop\n2 hrs 25 min\n\u00a345",
+            "price": 45.0,
+            "percentage_cheaper": 58.139534883720934
+        },
+        {
+            "destination": "Bologna\n10\u201314 Oct\nNon-stop\n2 hrs 5 min\n\u00a343",
+            "price": 43.0,
+            "percentage_cheaper": 58.048780487804876
+        },
+        {
+            "destination": "Cologne\n4\u20137 Oct\nNon-stop\n1 hr 15 min\n\u00a340",
+            "price": 40.0,
+            "percentage_cheaper": 56.75675675675676
+        },
+        {
+            "destination": "Berlin\n31 Oct\u2009\u2013\u20093 Nov\nNon-stop\n1 hr 40 min\n\u00a355",
+            "price": 55.0,
+            "percentage_cheaper": 55.10204081632652
+        },
+        {
+            "destination": "Prague\n10\u201314 Oct\nNon-stop\n2 hrs\n\u00a344",
+            "price": 44.0,
+            "percentage_cheaper": 54.871794871794876
+        },
+        {
+            "destination": "Venice\n4\u20137 Oct\nNon-stop\n2 hrs 5 min\n\u00a343",
+            "price": 43.0,
+            "percentage_cheaper": 54.736842105263165
+        },
+        {
+            "destination": "Z\u00fcrich\n31 Oct\u2009\u2013\u20094 Nov\nNon-stop\n1 hr 45 min\n\u00a354",
+            "price": 54.0,
+            "percentage_cheaper": 54.04255319148936
+        }
+    ],
+    "top_deals_by_price": [
+        {
+            "destination": "Vienna\n3\u20137 Oct\nNon-stop\n2 hrs 10 min\n\u00a330",
+            "price": 30.0,
+            "percentage_cheaper": 61.29032258064516
+        },
+        {
+            "destination": "Dublin\n11\u201314 Oct\nNon-stop\n1 hr 25 min\n\u00a330",
+            "price": 30.0,
+            "percentage_cheaper": 40.0
+        },
+        {
+            "destination": "Bordeaux\n10\u201313 Oct\nNon-stop\n1 hr 40 min\n\u00a330",
+            "price": 30.0,
+            "percentage_cheaper": 70.73170731707317
+        },
+        {
+            "destination": "Marseille\n10\u201314 Oct\nNon-stop\n2 hrs\n\u00a330",
+            "price": 30.0,
+            "percentage_cheaper": 75.0
+        },
+        {
+            "destination": "Pisa\n17\u201320 Oct\nNon-stop\n2 hrs 5 min\n\u00a330",
+            "price": 30.0,
+            "percentage_cheaper": 72.09302325581395
+        },
+        {
+            "destination": "Milan\n10\u201314 Oct\nNon-stop\n2 hrs\n\u00a331",
+            "price": 31.0,
+            "percentage_cheaper": 50.4
+        },
+        {
+            "destination": "Salzburg\n11\u201314 Oct\nNon-stop\n1 hr 50 min\n\u00a334",
+            "price": 34.0,
+            "percentage_cheaper": 78.41269841269842
+        },
+        {
+            "destination": "Warsaw\n17\u201321 Oct\nNon-stop\n2 hrs 15 min\n\u00a335",
+            "price": 35.0,
+            "percentage_cheaper": 51.724137931034484
+        }
+    ]
 }

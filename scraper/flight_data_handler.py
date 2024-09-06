@@ -76,25 +76,32 @@ class FlightDataHandler:
             detailed_price_element = self.page.query_selector(detailed_price_selector)
             detailed_price_info = detailed_price_element.inner_text() if detailed_price_element else "Detailed price information not available"
 
+            # Log the raw detailed price info
+            logging.info(f'Raw detailed price info for {destination_name}: {detailed_price_info}')
+
+            # Adjust parsing logic for the new format
             if "usually cost between" in detailed_price_info:
                 logging.info(f'Detailed price info for {destination_name}: {detailed_price_info}')
-                price_range = detailed_price_info.split("usually cost between")[1].strip().split("–")
-                usual_low = float(price_range[0].replace('£', '').strip()) if len(price_range) > 0 else 0
-                usual_high = float(price_range[1].replace('£', '').strip()) if len(price_range) > 1 else 0
-                usual_average = (usual_low + usual_high) / 2 if usual_high > 0 else 0
+                try:
+                    price_range = detailed_price_info.split("usually cost between")[1].strip().split("–")
+                    usual_low = float(price_range[0].replace('£', '').strip()) if len(price_range) > 0 else 0
+                    usual_high = float(price_range[1].replace('£', '').strip()) if len(price_range) > 1 else 0
+                    usual_average = (usual_low + usual_high) / 2 if usual_high > 0 else 0
 
-                current_price = float(price)
-                percentage_difference = ((
+                    current_price = float(price)
+                    percentage_difference = ((
                                                      usual_average - current_price) / usual_average) * 100 if usual_average > 0 else 0
 
-                self.price_data.append({
-                    "destination": destination_name,
-                    "price": current_price,
-                    "percentage_cheaper": percentage_difference
-                })
+                    self.price_data.append({
+                        "destination": destination_name,
+                        "price": current_price,
+                        "percentage_cheaper": percentage_difference
+                    })
 
-                logging.info(
-                    f'Extracted data for {destination_name}: Price - {current_price}, Percentage cheaper - {percentage_difference:.2f}%')
+                    logging.info(
+                        f'Extracted data for {destination_name}: Price - {current_price}, Percentage cheaper - {percentage_difference:.2f}%')
+                except ValueError as e:
+                    logging.error(f'Error parsing detailed price info for {destination_name}: {e}')
             else:
                 logging.warning(f'Detailed price information format not recognized for {destination_name}.')
         except Exception as e:

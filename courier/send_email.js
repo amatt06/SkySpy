@@ -27,7 +27,7 @@ async function sendEmails() {
         // Read flight data from JSON file
         let flightData;
         try {
-            const data = await fs.readFile('../scraper/london_flight_data.json', 'utf8');
+            const data = await fs.readFile('../scraper/flight_data/london_flight_data.json', 'utf8');
             flightData = JSON.parse(data);
         } catch (error) {
             console.error("Error reading flight data JSON file:", error);
