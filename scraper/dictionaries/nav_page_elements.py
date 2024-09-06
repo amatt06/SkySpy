@@ -7,4 +7,6 @@ navigation_selectors = {
     'done_button_selector': "#ow8 button:has-text('Done')",
     'target_month_button': lambda month_name: f"button:has-text('{month_name}')",
     'flight_data_selector': '.tsAU4e',
+    'detailed_price_arrow': 'button[aria-label="More details"]',
+    'back_button': 'button[aria-label="Navigate back"]',
 }
