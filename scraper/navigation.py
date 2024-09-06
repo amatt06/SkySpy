@@ -61,7 +61,7 @@ class Navigation:
 
                 # Wait for the page to update with new flight data
                 flight_data_selector = navigation_selectors['flight_data_selector']
-                page.wait_for_selector(flight_data_selector, timeout=60000)
+                # page.wait_for_selector(flight_data_selector, timeout=60000)
 
                 # Add delay to ensure all content is loaded
                 page.wait_for_timeout(3000)
@@ -71,7 +71,7 @@ class Navigation:
 
                 # Process the flight data using a separate handler
                 handler = FlightDataHandler(page, destination_elements)
-                handler.extract_and_process_data()
+                handler.locate_data()
 
             except Exception as e:
                 logger.error(f"An error occurred: {e}")
