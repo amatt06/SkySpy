@@ -108,14 +108,14 @@
             "percentage_cheaper": 68.37209302325581
         },
         {
-            "destination": "Warsaw\n5\u20137 Oct\nNon-stop\n2 hrs 15 min\n\u00a337",
-            "price": 37.0,
-            "percentage_cheaper": 48.96551724137931
-        },
-        {
             "destination": "Bologna\n10\u201313 Oct\nNon-stop\n2 hrs 5 min\n\u00a338",
             "price": 38.0,
             "percentage_cheaper": 62.926829268292686
+        },
+        {
+            "destination": "Venice\n5\u20137 Oct\nNon-stop\n2 hrs 5 min\n\u00a339",
+            "price": 39.0,
+            "percentage_cheaper": 58.94736842105262
         }
     ]
 }
