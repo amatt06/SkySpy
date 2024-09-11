@@ -2,6 +2,8 @@
 
 import json
 import logging
+import os
+
 from scraper.dictionaries.flight_data_elements import element_selectors
 from scraper.dictionaries.nav_page_elements import navigation_selectors
 
@@ -138,6 +140,13 @@ class FlightDataHandler:
             "top_deals_by_percentage": sorted_by_percentage,
             "top_deals_by_price": sorted_by_price
         }
-        with open('flight_data/london_flight_data.json', 'w') as file:
-            json.dump(data, file, indent=4)
-        logging.info('Data saved to JSON file.')
+        directory = './scraper/flight_data'
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        file_path = os.path.join(directory, 'london_flight_data.json')
+        try:
+            with open(file_path, 'w') as file:
+                json.dump(data, file, indent=4)
+            logging.info('Data saved to JSON file successfully.')
+        except Exception as e:
+            logging.error(f'Error saving test data to JSON file: {e}')

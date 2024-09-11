@@ -1,5 +1,5 @@
 from playwright.sync_api import sync_playwright
-from flight_data_handler import FlightDataHandler
+from scraper.flight_data_handler import FlightDataHandler
 from scraper.dictionaries.nav_page_elements import navigation_selectors
 from datetime import datetime
 import logging

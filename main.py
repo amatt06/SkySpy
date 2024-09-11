@@ -1,16 +1,14 @@
-# This is a sample Python script.
+# main.py
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+from scraper.sky_scraper import SkyScraper
+from scraper.flight_data_handler import FlightDataHandler
 
 
 def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+    print(f'Hi, {name}')
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    # Create an instance of SkyScraper and call store_flight_data
+    scraper = SkyScraper()
+    scraper.store_flight_data()
