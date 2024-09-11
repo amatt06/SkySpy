@@ -27,7 +27,7 @@ async function sendEmails() {
         // Read flight data from JSON file
         let flightData;
         try {
-            const data = await fs.readFile('../scraper/flight_data/london_flight_data.json', 'utf8');
+            const data = await fs.readFile('./scraper/flight_data/london_flight_data.json', 'utf8');
             flightData = JSON.parse(data);
         } catch (error) {
             console.error("Error reading flight data JSON file:", error);
@@ -121,7 +121,6 @@ function formatFlightData(flightData) {
     return content;
 }
 
-// Call the function to send emails
-sendEmails();
+sendEmails().then(r => console.log("Emails sent successfully.")).catch(e => console.error("Error " +
+    "sending emails:", e));
 
-module.exports = { sendEmails };
