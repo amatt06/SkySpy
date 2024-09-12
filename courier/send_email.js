@@ -43,14 +43,19 @@ async function sendEmails() {
             const email = EmailFormatter.createEmail(contact.email, 'SkySpy Flight Deals', emailContent);
 
             // Send the email
-            const res = await gmail.users.messages.send({
-                userId: 'me',
-                requestBody: {
-                    raw: email,
-                },
-            });
+            try {
+                const res = await gmail.users.messages.send({
+                    userId: 'me',
+                    requestBody: {
+                        raw: email,
+                    },
+                });
 
-            console.log(`Email sent to ${contact.email}: ${res.status}`);
+                console.log(`Email sent to ${contact.email}: ${res.status}`);
+                console.log(`Response details: ${JSON.stringify(res.data)}`);
+            } catch (sendError) {
+                console.error(`Error sending email to ${contact.email}:`, sendError);
+            }
         }
 
         console.log("All emails sent successfully.");
